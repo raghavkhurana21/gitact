@@ -1,5 +1,6 @@
-a=2
-b=10
+import sys 
+a = int(sys.argv[1])
+b = int(sys.argv[2])
 while(a<=b):
     print(a)
     a=a+1
