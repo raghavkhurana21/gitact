@@ -9,6 +9,22 @@ on:
   #   branches: [ "master" ]
   
   workflow_dispatch:
+    inputs:
+      a:
+        description: 'num1'
+        required: true
+      
+      b:
+        description: 'num2'
+        required: true
+    
+    
+env:
+  file: 1.py 
+  file1: 2.py
+  a: ${{ github.event.inputs.a }}
+  b: ${{ github.event.inputs.b }}
+
 
 # env:
 #   msg: I have changed the triggers
@@ -21,43 +37,19 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  job1:
-    # The type of runner that the job will run on
+  check-python-version:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        # with:
-        #   python-version: '3.10' 
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run:  |
-          python 1.py
-          python 2.py
-
-      # - name: Trigger message
-      #   run: echo $msg
-      
-
-      # - name: Second py file
-      #   run: python two.py
-  job2:
-  # # #   # if: ${{ always() }}
-    needs: job1
-    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-      - name: Run a second script
-        run: |
-          python 2.py
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.7'
+      - name: python version
+        run: python --version
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+    
+      - name: python script
         run: |
-          echo $msg
+          
+          python $file  $a $b
+          python $file1  $a $b
